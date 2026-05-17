@@ -407,6 +407,37 @@ document.addEventListener('visibilitychange', () => {
 });
 
 // ──────────────────────────────────────
+// 時間鎖定：5/18 11:00 (台灣時間) 才開放
+// ──────────────────────────────────────
+const UNLOCK_TIME = new Date('2026-05-18T11:00:00+08:00').getTime();
+let countdownTimer = null;
+
+function checkTimelock() {
+  const now = Date.now();
+  const diff = UNLOCK_TIME - now;
+
+  if (diff <= 0) {
+    // 時間到！隱藏倒數 → 顯示問答
+    clearInterval(countdownTimer);
+    document.getElementById('timelock-overlay').classList.remove('visible');
+    document.getElementById('quiz-overlay').classList.add('visible');
+    return;
+  }
+
+  // 更新倒數
+  const hours = Math.floor(diff / 3600000);
+  const mins = Math.floor((diff % 3600000) / 60000);
+  const secs = Math.floor((diff % 60000) / 1000);
+  document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+  document.getElementById('cd-minutes').textContent = String(mins).padStart(2, '0');
+  document.getElementById('cd-seconds').textContent = String(secs).padStart(2, '0');
+}
+
+// 啟動倒數
+checkTimelock();
+countdownTimer = setInterval(checkTimelock, 1000);
+
+// ──────────────────────────────────────
 // 入場問答 → 耳機確認 → 老公問候
 // ──────────────────────────────────────
 let greetingAudio = null;

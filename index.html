@@ -736,8 +736,36 @@
     </div>
   </footer>
 
+  <!-- ===== 時間鎖定 Overlay ===== -->
+  <div class="husband-overlay visible" id="timelock-overlay">
+    <div class="husband-card">
+      <div class="husband-heart-anim">🏛️</div>
+      <h3 class="husband-title">奇美博物館語音導覽</h3>
+      <p class="husband-msg" style="margin-bottom:8px;">
+        導覽尚未開放
+      </p>
+      <div class="timelock-countdown" id="timelock-countdown">
+        <div class="countdown-item">
+          <span class="countdown-num" id="cd-hours">00</span>
+          <span class="countdown-label">時</span>
+        </div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-item">
+          <span class="countdown-num" id="cd-minutes">00</span>
+          <span class="countdown-label">分</span>
+        </div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-item">
+          <span class="countdown-num" id="cd-seconds">00</span>
+          <span class="countdown-label">秒</span>
+        </div>
+      </div>
+      <p class="timelock-date">5/18（日）上午 11:00 準時開放 🎨</p>
+    </div>
+  </div>
+
   <!-- ===== 入場問答 Overlay ===== -->
-  <div class="husband-overlay visible" id="quiz-overlay">
+  <div class="husband-overlay" id="quiz-overlay">
     <div class="husband-card">
       <div class="husband-heart-anim">🎮</div>
       <h3 class="husband-title">身份驗證</h3>
