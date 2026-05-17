@@ -778,16 +778,22 @@
       <div class="husband-heart-anim">💕</div>
       <h3 class="husband-title">來自老公的訊息</h3>
       <p class="husband-msg">
+        點下方按鈕聽老公想對你說的話 🎧
+      </p>
+      <button class="husband-play-btn" id="btn-play-greeting" onclick="playGreetingAudio()">
+        ▶ 播放語音訊息
+      </button>
+      <div class="husband-audio-wave" id="husband-wave">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <p class="husband-transcript" id="husband-transcript" style="display:none;">
         嗨！我是你老公啦！<br/>
         可惜無法跟你一起來逛，但也因為這樣，<br/>
         我才想做這個簡易的導覽網站。<br/>
         希望你逛起來，會比和老公來逛收穫更多！<br/>
         <span class="husband-love">我愛你喲 ❤️</span>
       </p>
-      <div class="husband-audio-wave" id="husband-wave">
-        <span></span><span></span><span></span><span></span><span></span>
-      </div>
-      <button class="btn-husband-close" id="btn-husband-close" onclick="closeHusbandGreeting()">
+      <button class="btn-husband-close" id="btn-husband-close" onclick="closeHusbandGreeting()" style="display:none;">
         收到！開始逛博物館 🎨
       </button>
     </div>

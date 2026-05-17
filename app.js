@@ -496,16 +496,37 @@ function confirmEarphone() {
   setTimeout(() => showHusbandGreeting(), 300);
 }
 
-// --- Step 3: 老公問候 ---
+// --- Step 3: 老公問候（手動播放）---
 function showHusbandGreeting() {
-  const overlay = document.getElementById('husband-overlay');
-  overlay.classList.add('visible');
+  document.getElementById('husband-overlay').classList.add('visible');
+}
+
+function playGreetingAudio() {
+  const btn = document.getElementById('btn-play-greeting');
+  // 已在播放中就不重複觸發
+  if (greetingAudio && !greetingAudio.paused) return;
+
+  btn.classList.add('playing');
+  btn.textContent = '🔊 播放中…';
+  btn.style.pointerEvents = 'none';
+
   greetingAudio = new Audio('audio/husband_greeting.mp3');
   const wave = document.getElementById('husband-wave');
+
   greetingAudio.addEventListener('play', () => wave.classList.add('active'));
-  greetingAudio.addEventListener('ended', () => wave.classList.remove('active'));
-  greetingAudio.addEventListener('pause', () => wave.classList.remove('active'));
-  greetingAudio.play().catch(() => {});
+  greetingAudio.addEventListener('ended', () => {
+    wave.classList.remove('active');
+    btn.style.display = 'none';
+    // 顯示文字稿 + 關閉按鈕
+    document.getElementById('husband-transcript').style.display = 'block';
+    document.getElementById('btn-husband-close').style.display = 'inline-block';
+  });
+
+  greetingAudio.play().catch(() => {
+    btn.classList.remove('playing');
+    btn.textContent = '⚠️ 播放失敗，再試一次';
+    btn.style.pointerEvents = 'auto';
+  });
 }
 
 function closeHusbandGreeting() {
