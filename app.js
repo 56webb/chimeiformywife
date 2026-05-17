@@ -415,16 +415,21 @@ let countdownTimer = null;
 function checkTimelock() {
   const now = Date.now();
   const diff = UNLOCK_TIME - now;
+  const fab = document.getElementById('fab-heart');
 
   if (diff <= 0) {
-    // 時間到！隱藏倒數 → 顯示問答
+    // 時間到！隱藏倒數 → 顯示問答 → 顯示愛心
     if (countdownTimer) clearInterval(countdownTimer);
     const tl = document.getElementById('timelock-overlay');
     const qz = document.getElementById('quiz-overlay');
     if (tl) tl.classList.remove('visible');
     if (qz) qz.classList.add('visible');
+    if (fab) fab.style.display = 'flex';
     return;
   }
+
+  // 鎖定中：隱藏愛心
+  if (fab) fab.style.display = 'none';
 
   // 更新倒數
   const h = Math.floor(diff / 3600000);
