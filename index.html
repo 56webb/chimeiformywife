@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="奇美博物館西洋藝術語音導覽 — 精選西洋畫作與雕塑，帶您深入欣賞館藏之美。" />
+  <title>奇美博物館 · 語音導覽 | Chimei Museum Audio Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif+TC:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== 頂部導覽列 ===== -->
+  <header class="site-header" id="top">
+    <div class="header-inner">
+      <div class="logo-area">
+        <span class="logo-zh">奇美博物館</span>
+        <span class="logo-separator">·</span>
+        <span class="logo-en">語音導覽</span>
+      </div>
+      <nav class="top-nav">
+        <a href="#intro" class="nav-link">開場導覽</a>
+        <a href="#sculpture" class="nav-link">雕塑廳</a>
+        <a href="#paintings" class="nav-link">藝術廳</a>
+        <a href="#instruments" class="nav-link">樂器廳</a>
+        <a href="#info" class="nav-link">參觀資訊</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== 英雄區塊 ===== -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <img src="images/chimei_welcome.png" alt="奇美博物館外觀" class="hero-img" />
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <p class="hero-subtitle">Chimei Museum · Audio Guide</p>
+      <h1 class="hero-title">奇美博物館<br/>語音導覽</h1>
+      <p class="hero-desc">精選西洋畫作與雕塑 · 帶您走進藝術的感動時刻</p>
+      <div class="hero-cta-group">
+        <button class="btn-primary" id="btn-start-tour" onclick="startTour()">
+          <span class="btn-icon">▶</span> 開始語音導覽
+        </button>
+        <a href="#intro" class="btn-secondary">瀏覽作品</a>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <span>向下滑動探索</span>
+      <div class="scroll-arrow">↓</div>
+    </div>
+  </section>
+
+  <!-- ===== 全域語音播放器 ===== -->
+  <div class="audio-player-bar" id="audio-player-bar">
+    <div class="player-info">
+      <div class="player-artwork-thumb" id="player-thumb">
+        <img src="" alt="" id="player-thumb-img" />
+      </div>
+      <div class="player-text">
+        <div class="player-title" id="player-title">準備開始導覽</div>
+        <div class="player-subtitle" id="player-subtitle">點選作品卡片即可播放語音</div>
+      </div>
+    </div>
+    <div class="player-controls">
+      <button class="ctrl-btn" id="btn-restart" onclick="restartCurrent()" title="重新播放">↺</button>
+      <button class="ctrl-btn ctrl-main" id="btn-play-pause" onclick="togglePlayPause()" title="播放/暫停">
+        <span id="play-icon">▶</span>
+      </button>
+      <button class="ctrl-btn" id="btn-stop" onclick="stopAudio()" title="停止">■</button>
+    </div>
+    <div class="player-speed">
+      <span class="speed-label">語速</span>
+      <select id="speed-select" onchange="changeSpeed(this.value)" class="speed-select">
+        <option value="0.8">慢速</option>
+        <option value="1.0" selected>正常</option>
+        <option value="1.2">稍快</option>
+        <option value="1.5">快速</option>
+      </select>
+    </div>
+    <div class="player-progress-wrap">
+      <div class="player-progress-bar">
+        <div class="player-progress-fill" id="progress-fill"></div>
+      </div>
+      <div class="player-status" id="player-status">等待中</div>
+    </div>
+  </div>
+
+  <!-- ===== 開場導覽 ===== -->
+  <section class="section-intro" id="intro">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-num">00</div>
+        <div class="section-title-wrap">
+          <h2 class="section-title">導覽開場</h2>
+          <p class="section-subtitle">Welcome to Chimei Museum</p>
+        </div>
+      </div>
+      <div class="intro-card" id="card-intro">
+        <div class="intro-card-left">
+          <img src="images/chimei_welcome.png" alt="奇美博物館" class="intro-img" />
+        </div>
+        <div class="intro-card-right">
+          <div class="tag-row">
+            <span class="tag tag-gold">開場白</span>
+            <span class="tag tag-time">約 3 分鐘</span>
+          </div>
+          <h3 class="card-title-lg">歡迎來到奇美博物館</h3>
+          <p class="card-desc">
+            全台灣館藏最豐富的私人博物館，源自創辦人許文龍先生的夢想——「為大眾建造一座無論男女老幼都喜歡的博物館」。
+            從戶外阿波羅噴泉廣場走入純白希臘羅馬式建築，感受橫跨七個世紀的西洋藝術精華。
+          </p>
+          <div class="highlights-row">
+            <div class="highlight-item">
+              <span class="hl-num">13–20</span>
+              <span class="hl-label">世紀西洋藝術</span>
+            </div>
+            <div class="highlight-item">
+              <span class="hl-num">4</span>
+              <span class="hl-label">大鎮館之寶</span>
+            </div>
+            <div class="highlight-item">
+              <span class="hl-num">5</span>
+              <span class="hl-label">常設展廳</span>
+            </div>
+          </div>
+          <button class="btn-play-card" id="play-intro" onclick="playAudio('intro')">
+            <span class="play-btn-icon">▶</span>
+            <span>播放開場導覽</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 分區標題：雕塑廳 ===== -->
+  <div class="zone-divider" id="sculpture">
+    <div class="zone-line"></div>
+    <div class="zone-text">
+      <span class="zone-cn">雕塑廳</span>
+      <span class="zone-en">Sculpture Hall · Rodin Gallery</span>
+    </div>
+    <div class="zone-line"></div>
+  </div>
+
+  <!-- ===== 作品卡片群：雕塑 ===== -->
+  <section class="section-artworks">
+    <div class="container">
+      <div class="artworks-grid">
+
+        <!-- 沉思者 -->
+        <article class="artwork-card" id="card-thinker" onclick="playAudio('thinker')">
+          <div class="card-img-wrap">
+            <img src="images/thinker.png" alt="沉思者 羅丹" class="card-img" />
+            <div class="card-img-overlay">
+              <span class="overlay-play">▶</span>
+            </div>
+            <div class="card-badge">羅丹廳</div>
+          </div>
+          <div class="card-body">
+            <div class="card-meta-row">
+              <span class="card-artist">Auguste Rodin</span>
+              <span class="card-time">約 90 秒</span>
+            </div>
+            <h3 class="card-title">《沉思者》</h3>
+            <p class="card-artist-zh">奧古斯特 · 羅丹</p>
+            <p class="card-excerpt">
+              源自《地獄門》的詩人但丁，演化為全人類面對命運與生死時深刻反思的象徵。
+              台灣僅有三座羅丹親翻銅像，奇美便是其中之一。
+            </p>
+            <div class="card-tags">
+              <span class="tag tag-blue">青銅雕塑</span>
+              <span class="tag tag-dark">浪漫主義</span>
+            </div>
+            <button class="btn-play-card" id="play-thinker">
+              <span class="play-btn-icon">▶</span>
+              <span>聆聽導覽</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 遺棄 -->
+        <article class="artwork-card" id="card-abandon" onclick="playAudio('abandon')">
+          <div class="card-img-wrap">
+            <img src="images/abandon.png" alt="遺棄 卡蜜兒" class="card-img" />
+            <div class="card-img-overlay">
+              <span class="overlay-play">▶</span>
+            </div>
+            <div class="card-badge">羅丹廳</div>
+          </div>
+          <div class="card-body">
+            <div class="card-meta-row">
+              <span class="card-artist">Camille Claudel</span>
+              <span class="card-time">約 90 秒</span>
+            </div>
+            <h3 class="card-title">《遺棄》</h3>
+            <p class="card-artist-zh">卡蜜兒 · 克勞黛</p>
+            <p class="card-excerpt">
+              羅丹最得意的女學生，也是他的情人與謬斯。這件作品是她悲劇人生的縮影——
+              刻劃心碎卻無法割捨的無奈與溫柔。
+            </p>
+            <div class="card-tags">
+              <span class="tag tag-blue">青銅雕塑</span>
+              <span class="tag tag-rose">女性藝術</span>
+            </div>
+            <button class="btn-play-card" id="play-abandon">
+              <span class="play-btn-icon">▶</span>
+              <span>聆聽導覽</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 鐵修斯 -->
+        <article class="artwork-card" id="card-theseus" onclick="playAudio('theseus')">
+          <div class="card-img-wrap">
+            <img src="images/theseus.png" alt="鐵修斯戰勝人馬獸 巴里" class="card-img" />
+            <div class="card-img-overlay">
+              <span class="overlay-play">▶</span>
+            </div>
+            <div class="card-badge tag-gold-badge">鎮館之寶</div>
+          </div>
+          <div class="card-body">
+            <div class="card-meta-row">
+              <span class="card-artist">Antoine-Louis Barye</span>
+              <span class="card-time">約 60 秒</span>
+            </div>
+            <h3 class="card-title">《鐵修斯戰勝人馬獸》</h3>
+            <p class="card-artist-zh">安端-路易 · 巴里</p>
+            <p class="card-excerpt">
+              巴黎市政府曾借此作品翻製紀念碑；730公斤的青銅巨作，象徵人類理智戰勝原始野蠻的力量。
+            </p>
+            <div class="card-tags">
+              <span class="tag tag-gold">四大鎮館之寶</span>
+              <span class="tag tag-dark">希臘神話</span>
+            </div>
+            <button class="btn-play-card" id="play-theseus">
+              <span class="play-btn-icon">▶</span>
+              <span>聆聽導覽</span>
+            </button>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 分區標題：藝術廳 ===== -->
+  <div class="zone-divider" id="paintings">
+    <div class="zone-line"></div>
+    <div class="zone-text">
+      <span class="zone-cn">藝術廳</span>
+      <span class="zone-en">Fine Arts Hall · Western Painting</span>
+    </div>
+    <div class="zone-line"></div>
+  </div>
+
+  <!-- ===== 作品卡片群：繪畫 ===== -->
+  <section class="section-artworks">
+    <div class="container">
+      <div class="artworks-grid">
+
+        <!-- ★ 藝術廳整體導覽（移到第一張） -->
+        <article class="artwork-card" id="card-art-hall" onclick="playAudio('artHall')">
+          <div class="card-img-wrap">
+            <img src="images/art_hall.png" alt="奇美博物館藝術廳" class="card-img" />
+            <div class="card-img-overlay">
+              <span class="overlay-play">▶</span>
+            </div>
+            <div class="card-badge">西洋繪畫</div>
+          </div>
+          <div class="card-body">
+            <div class="card-meta-row">
+              <span class="card-artist">Fine Arts Hall Overview</span>
+              <span class="card-time">約 2 分鐘</span>
+            </div>
+            <h3 class="card-title">藝術廳 · 西洋繪畫</h3>
+            <p class="card-artist-zh">整體導覽 · 13至20世紀</p>
+            <p class="card-excerpt">
+              從文藝復興的宗教神性，到巴洛克的戲劇光影，再到印象派捕捉的光線瞬間——
+              濃縮七個世紀的西方藝術史。
+            </p>
+            <div class="card-tags">
+              <span class="tag tag-blue">文藝復興</span>
+              <span class="tag tag-dark">巴洛克</span>
+              <span class="tag tag-rose">印象派</span>
+            </div>
+            <button class="btn-play-card" id="play-artHall">
+              <span class="play-btn-icon">▶</span>
+              <span>聆聽導覽</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 音樂的寓意（新增） -->
+        <article class="artwork-card" id="card-music-allegory" onclick="playAudio('musicAllegory')">
+          <div class="card-img-wrap">
+            <img src="images/music_allegory.png" alt="音樂的寓意 馬卡" class="card-img" />
+            <div class="card-img-overlay">
+              <span class="overlay-play">▶</span>
+            </div>
+            <div class="card-badge tag-gold-badge">鎮館之寶</div>
+          </div>
+          <div class="card-body">
+            <div class="card-meta-row">
+              <span class="card-artist">Hans Makart</span>
+              <span class="card-time">約 90 秒</span>
+            </div>
+            <h3 class="card-title">《音樂的寓意》</h3>
+            <p class="card-artist-zh">漢斯 · 馬卡特</p>
+            <p class="card-excerpt">
+              館內尺寸最大的畫作（5×4.5公尺），原為維也納富商的天井畫。
+              四個三角形空間分別寓意宗教、舞蹈、軍樂與狩獵音樂，歷經二戰劫掠才來到台灣。
+            </p>
+            <div class="card-tags">
+              <span class="tag tag-gold">鎮館之寶</span>
+              <span class="tag tag-dark">天井畫</span>
+            </div>
+            <button class="btn-play-card" id="play-musicAllegory">
+              <span class="play-btn-icon">▶</span>
+              <span>聆聽導覽</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 聖馬丁 -->
+        <article class="artwork-card" id="card-saint-martin" onclick="playAudio('saintMartin')">
+          <div class="card-img-wrap">
+            <img src="images/saint_martin.png" alt="聖馬丁與乞丐 葛雷柯" class="card-img" />
+            <div class="card-img-overlay">
+              <span class="overlay-play">▶</span>
+            </div>
+            <div class="card-badge tag-gold-badge">鎮館之寶</div>
+          </div>
+          <div class="card-body">
+            <div class="card-meta-row">
+              <span class="card-artist">El Greco's Workshop</span>
+              <span class="card-time">約 90 秒</span>
+            </div>
+            <h3 class="card-title">《聖馬丁與乞丐》</h3>
+            <p class="card-artist-zh">艾爾 · 葛雷柯 工作坊</p>
+            <p class="card-excerpt">
+              修長的人物、強烈光影與戲劇性天空，是葛雷柯手澤的標誌。
+              騎士割袍贈乞的瞬間，是一個軍人找到信仰的時刻。
+            </p>
+            <div class="card-tags">
+              <span class="tag tag-gold">四大鎮館之寶</span>
+              <span class="tag tag-dark">文藝復興末期</span>
+            </div>
+            <button class="btn-play-card" id="play-saintMartin">
+              <span class="play-btn-icon">▶</span>
+              <span>聆聽導覽</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 慈愛 -->
+        <article class="artwork-card" id="card-charity" onclick="playAudio('charity')">
+          <div class="card-img-wrap">
+            <img src="images/charity.png" alt="慈愛 布葛赫" class="card-img" />
+            <div class="card-img-overlay">
+              <span class="overlay-play">▶</span>
+            </div>
+            <div class="card-badge">藝術廳</div>
+          </div>
+          <div class="card-body">
+            <div class="card-meta-row">
+              <span class="card-artist">William Bouguereau</span>
+              <span class="card-time">約 90 秒</span>
+            </div>
+            <h3 class="card-title">《慈愛》</h3>
+            <p class="card-artist-zh">威廉 · 亞杜夫 · 布葛赫</p>
+            <p class="card-excerpt">
+              基督教三大美德之「慈愛」的寓意化身。母親擁抱孩童的三角形構圖，
+              學院派精緻技法讓人物膚質透亮如珍珠。
+            </p>
+            <div class="card-tags">
+              <span class="tag tag-blue">油彩畫布</span>
+              <span class="tag tag-dark">19世紀學院派</span>
+            </div>
+            <button class="btn-play-card" id="play-charity">
+              <span class="play-btn-icon">▶</span>
+              <span>聆聽導覽</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 信息（新增） -->
+        <article class="artwork-card" id="card-the-message" onclick="playAudio('theMessage')">
+          <div class="card-img-wrap">
+            <img src="images/the_message.png" alt="信息 高奇" class="card-img" />
+            <div class="card-img-overlay">
+              <span class="overlay-play">▶</span>
+            </div>
+            <div class="card-badge">藝術廳</div>
+          </div>
+          <div class="card-body">
+            <div class="card-meta-row">
+              <span class="card-artist">Thomas Cooper Gotch</span>
+              <span class="card-time">約 90 秒</span>
+            </div>
+            <h3 class="card-title">《信息》</h3>
+            <p class="card-artist-zh">湯瑪斯 · 庫伯 · 高奇</p>
+            <p class="card-excerpt">
+              帶翼天使向少女傳達訊息的夢幻場景。畫中以艷麗的罌粟花取代傳統百合，
+              暗藏成長與死亡的隱喻，歷經跨國波折才抵達台灣。
+            </p>
+            <div class="card-tags">
+              <span class="tag tag-blue">油彩畫布</span>
+              <span class="tag tag-rose">前拉斐爾派</span>
+            </div>
+            <button class="btn-play-card" id="play-theMessage">
+              <span class="play-btn-icon">▶</span>
+              <span>聆聽導覽</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 暴風雨（新增） -->
+        <article class="artwork-card" id="card-the-storm" onclick="playAudio('theStorm')">
+          <div class="card-img-wrap">
+            <img src="images/the_storm.png" alt="暴風雨 寇特" class="card-img" />
+            <div class="card-img-overlay">
+              <span class="overlay-play">▶</span>
+            </div>
+            <div class="card-badge">藝術廳</div>
+          </div>
+          <div class="card-body">
+            <div class="card-meta-row">
+              <span class="card-artist">Pierre Auguste Cot</span>
+              <span class="card-time">約 60 秒</span>
+            </div>
+            <h3 class="card-title">《暴風雨》</h3>
+            <p class="card-artist-zh">皮耶 · 奧古斯特 · 寇特</p>
+            <p class="card-excerpt">
+              年輕戀人在暴風雨中奔跑，白色衣裳隨風飛揚。新古典浪漫主義經典，
+              透過紅外線檢測揭露了畫家極為精密的底稿。
+            </p>
+            <div class="card-tags">
+              <span class="tag tag-blue">油彩畫布</span>
+              <span class="tag tag-dark">新古典浪漫</span>
+            </div>
+            <button class="btn-play-card" id="play-theStorm">
+              <span class="play-btn-icon">▶</span>
+              <span>聆聽導覽</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 維納斯的誕生（新增） -->
+        <article class="artwork-card" id="card-venus-birth" onclick="playAudio('venusBirth')">
+          <div class="card-img-wrap">
+            <img src="images/venus_birth.png" alt="維納斯的誕生 波戴西提" class="card-img" />
+            <div class="card-img-overlay">
+              <span class="overlay-play">▶</span>
+            </div>
+            <div class="card-badge">藝術廳</div>
+          </div>
+          <div class="card-body">
+            <div class="card-meta-row">
+              <span class="card-artist">Francesco Podesti</span>
+              <span class="card-time">約 60 秒</span>
+            </div>
+            <h3 class="card-title">《維納斯的誕生》</h3>
+            <p class="card-artist-zh">法蘭契斯可 · 波戴西提</p>
+            <p class="card-excerpt">
+              愛與美的女神從海洋泡沫中乘著貝殼誕生，天使環繞、花瓣飄落。
+              義大利新古典主義的經典詮釋，是希臘神話題材的代表之作。
+            </p>
+            <div class="card-tags">
+              <span class="tag tag-blue">油彩畫布</span>
+              <span class="tag tag-dark">希臘神話</span>
+            </div>
+            <button class="btn-play-card" id="play-venusBirth">
+              <span class="play-btn-icon">▶</span>
+              <span>聆聽導覽</span>
+            </button>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 分區標題：樂器廳 ===== -->
+  <div class="zone-divider" id="instruments">
+    <div class="zone-line"></div>
+    <div class="zone-text">
+      <span class="zone-cn">樂器廳</span>
+      <span class="zone-en">Musical Instruments Hall · 2F</span>
+    </div>
+    <div class="zone-line"></div>
+  </div>
+
+  <!-- ===== 作品卡片群：樂器 ===== -->
+  <section class="section-artworks">
+    <div class="container">
+      <div class="artworks-grid">
+
+        <!-- 樂器廳整體導覽 -->
+        <article class="artwork-card" id="card-instruments-hall" onclick="playAudio('instrumentsHall')">
+          <div class="card-img-wrap">
+            <img src="images/instruments_hall.png" alt="奇美博物館樂器廳" class="card-img" />
+            <div class="card-img-overlay">
+              <span class="overlay-play">▶</span>
+            </div>
+            <div class="card-badge">樂器廳</div>
+          </div>
+          <div class="card-body">
+            <div class="card-meta-row">
+              <span class="card-artist">Musical Instruments Overview</span>
+              <span class="card-time">約 2 分鐘</span>
+            </div>
+            <h3 class="card-title">樂器廳 · 整體導覽</h3>
+            <p class="card-artist-zh">全球最大提琴私人收藏</p>
+            <p class="card-excerpt">
+              超過1300件樂器收藏，涵蓋提琴、自動樂器與世界民族樂器三大區。
+              館方免費出借名琴給音樂家，讓數百年古琴持續演奏。
+            </p>
+            <div class="card-tags">
+              <span class="tag tag-blue">提琴</span>
+              <span class="tag tag-dark">自動樂器</span>
+              <span class="tag tag-rose">民族樂器</span>
+            </div>
+            <button class="btn-play-card" id="play-instrumentsHall">
+              <span class="play-btn-icon">▶</span>
+              <span>聆聽導覽</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 查理九世大提琴 -->
+        <article class="artwork-card" id="card-charles-ix" onclick="playAudio('charlesIX')">
+          <div class="card-img-wrap">
+            <img src="images/charles_ix_cello.png" alt="查理九世大提琴" class="card-img" />
+            <div class="card-img-overlay">
+              <span class="overlay-play">▶</span>
+            </div>
+            <div class="card-badge tag-gold-badge">鎮館之寶</div>
+          </div>
+          <div class="card-body">
+            <div class="card-meta-row">
+              <span class="card-artist">Andrea Amati, 1566</span>
+              <span class="card-time">約 90 秒</span>
+            </div>
+            <h3 class="card-title">「查理九世」大提琴</h3>
+            <p class="card-artist-zh">安德烈 · 阿瑪蒂</p>
+            <p class="card-excerpt">
+              世界最古老的大提琴，至今仍可演奏。法國國王查理九世訂製的宮廷樂器，
+              琴背板繪有皇室皇冠與百合花紋飾。
+            </p>
+            <div class="card-tags">
+              <span class="tag tag-gold">鎮館之寶</span>
+              <span class="tag tag-dark">1566年</span>
+            </div>
+            <button class="btn-play-card" id="play-charlesIX">
+              <span class="play-btn-icon">▶</span>
+              <span>聆聽導覽</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 名琴展區 -->
+        <article class="artwork-card" id="card-famous-violins" onclick="playAudio('famousViolins')">
+          <div class="card-img-wrap">
+            <img src="images/stradivari_violins.png" alt="史特拉底瓦里與瓜奈里名琴" class="card-img" />
+            <div class="card-img-overlay">
+              <span class="overlay-play">▶</span>
+            </div>
+            <div class="card-badge">提琴區</div>
+          </div>
+          <div class="card-body">
+            <div class="card-meta-row">
+              <span class="card-artist">Stradivari & Guarneri</span>
+              <span class="card-time">約 90 秒</span>
+            </div>
+            <h3 class="card-title">名琴展區</h3>
+            <p class="card-artist-zh">史特拉底瓦里 · 瓜奈里 · 阿瑪蒂</p>
+            <p class="card-excerpt">
+              義大利三大製琴家族的經典名作。瓜奈里1744年最後遺作「奧雷布爾」，
+              音色穿透力極強，三百年來無法被現代科技複製。
+            </p>
+            <div class="card-tags">
+              <span class="tag tag-blue">小提琴</span>
+              <span class="tag tag-dark">克里蒙納</span>
+            </div>
+            <button class="btn-play-card" id="play-famousViolins">
+              <span class="play-btn-icon">▶</span>
+              <span>聆聽導覽</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 自動樂器 -->
+        <article class="artwork-card" id="card-auto-instruments" onclick="playAudio('autoInstruments')">
+          <div class="card-img-wrap">
+            <img src="images/auto_instruments.png" alt="自動樂器展區" class="card-img" />
+            <div class="card-img-overlay">
+              <span class="overlay-play">▶</span>
+            </div>
+            <div class="card-badge">自動樂器區</div>
+          </div>
+          <div class="card-body">
+            <div class="card-meta-row">
+              <span class="card-artist">Mechanical Music</span>
+              <span class="card-time">約 90 秒</span>
+            </div>
+            <h3 class="card-title">自動樂器展區</h3>
+            <p class="card-artist-zh">機械音樂家 · 18-20世紀</p>
+            <p class="card-excerpt">
+              「李斯特之聲」三把小提琴自動合奏、「維爾特合奏機」模擬整個管弦樂團。
+              在留聲機發明前，這是人類保存音樂的方式。
+            </p>
+            <div class="card-tags">
+              <span class="tag tag-blue">機械工藝</span>
+              <span class="tag tag-dark">自動演奏</span>
+            </div>
+            <button class="btn-play-card" id="play-autoInstruments">
+              <span class="play-btn-icon">▶</span>
+              <span>聆聽導覽</span>
+            </button>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 結語卡片 ===== -->
+  <section class="section-outro" id="outro">
+    <div class="container">
+      <div class="outro-card">
+        <div class="outro-text-side">
+          <div class="tag-row">
+            <span class="tag tag-gold">導覽結語</span>
+            <span class="tag tag-time">約 60 秒</span>
+          </div>
+          <h3 class="outro-title">感謝您的參與</h3>
+          <p class="outro-subtitle">導覽結語 · 推薦路線</p>
+          <p class="outro-desc">
+            重點導覽結束後，別忘了前往一樓「動物廳」的全球標本收藏，或漫步戶外
+            「阿波羅噴泉廣場」感受歐式宮殿的壯麗。
+          </p>
+          <button class="btn-play-card" id="play-outro" onclick="playAudio('outro')">
+            <span class="play-btn-icon">▶</span>
+            <span>播放導覽結語</span>
+          </button>
+        </div>
+        <div class="outro-route-side">
+          <h4 class="route-title">建議參觀路線</h4>
+          <div class="route-steps">
+            <div class="route-step">
+              <div class="step-num">1</div>
+              <div class="step-info">
+                <div class="step-name">阿波羅廣場 · 奧林帕斯橋</div>
+                <div class="step-desc">戶外拍照 · 感受歐式建築之美</div>
+              </div>
+            </div>
+            <div class="route-step">
+              <div class="step-num">2</div>
+              <div class="step-info">
+                <div class="step-name">雕塑大道 → 羅丹廳</div>
+                <div class="step-desc">沉思者 · 遺棄 · 鐵修斯</div>
+              </div>
+            </div>
+            <div class="route-step">
+              <div class="step-num">3</div>
+              <div class="step-info">
+                <div class="step-name">藝術廳（2F）</div>
+                <div class="step-desc">音樂的寓意 · 聖馬丁 · 慈愛 · 暴風雨</div>
+              </div>
+            </div>
+            <div class="route-step">
+              <div class="step-num">4</div>
+              <div class="step-info">
+                <div class="step-name">樂器廳（2F）</div>
+                <div class="step-desc">查理九世大提琴 · 名琴 · 自動樂器</div>
+              </div>
+            </div>
+            <div class="route-step">
+              <div class="step-num">5</div>
+              <div class="step-info">
+                <div class="step-name">動物廳（1F）</div>
+                <div class="step-desc">選擇性探索</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 參觀資訊 ===== -->
+  <section class="section-info" id="info">
+    <div class="container">
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-icon">🕤</div>
+          <div class="info-label">開放時間</div>
+          <div class="info-val">09:30 – 17:30</div>
+          <div class="info-note">週三及除夕休館</div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">📍</div>
+          <div class="info-label">地址</div>
+          <div class="info-val">台南市仁德區</div>
+          <div class="info-note">文華路二段 66 號</div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">📞</div>
+          <div class="info-label">電話</div>
+          <div class="info-val">06-2660808</div>
+          <div class="info-note">服務台洽詢</div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">🎟️</div>
+          <div class="info-label">購票方式</div>
+          <div class="info-val">官網 · Klook · KKday</div>
+          <div class="info-note">建議提前線上預約</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 頁腳 ===== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <span class="footer-logo-zh">奇美博物館語音導覽</span>
+      </div>
+      <p class="footer-note">
+        本導覽為非官方個人製作，內容僅供參考。圖片為 AI 生成之示意圖。<br/>
+        官方網站：<a href="https://www.chimeimuseum.org" target="_blank" rel="noopener">chimeimuseum.org</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- ===== 入場問答 Overlay ===== -->
+  <div class="husband-overlay visible" id="quiz-overlay">
+    <div class="husband-card">
+      <div class="husband-heart-anim">🎮</div>
+      <h3 class="husband-title">身份驗證</h3>
+      <p class="quiz-question">你目前最會玩哪隻英雄？</p>
+      <div class="quiz-options">
+        <button class="quiz-btn" onclick="quizAnswer('A')">A. 綺羅</button>
+        <button class="quiz-btn" onclick="quizAnswer('B')">B. 刀鋒寶貝</button>
+        <button class="quiz-btn quiz-btn-correct" onclick="quizAnswer('C')">C. 朵莉亞</button>
+        <button class="quiz-btn" onclick="quizAnswer('D')">D. 凡恩</button>
+      </div>
+      <p class="quiz-hint" id="quiz-hint"></p>
+    </div>
+  </div>
+
+  <!-- ===== 耳機確認 Overlay ===== -->
+  <div class="husband-overlay" id="earphone-overlay">
+    <div class="husband-card">
+      <div class="husband-heart-anim">🎧</div>
+      <h3 class="husband-title">等一下！</h3>
+      <p class="husband-msg" style="margin-bottom:16px;">
+        耳機帶好了嗎？<br/>
+        接下來有<span style="color:var(--gold-light);">語音導覽</span>，<br/>
+        戴上耳機體驗更好喔！
+      </p>
+      <button class="earphone-test-btn" id="btn-test-volume" onclick="testVolume()">
+        🔊 測試音量
+      </button>
+      <p class="earphone-test-status" id="earphone-status">點上方按鈕測試聲音是否正常</p>
+      <button class="btn-husband-close" id="btn-earphone-ok" onclick="confirmEarphone()">
+        ✅ 聽到了！準備好了
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== 老公問候 Overlay ===== -->
+  <div class="husband-overlay" id="husband-overlay">
+    <div class="husband-card">
+      <div class="husband-heart-anim">💕</div>
+      <h3 class="husband-title">來自老公的訊息</h3>
+      <p class="husband-msg">
+        嗨！我是你老公啦！<br/>
+        可惜無法跟你一起來逛，但也因為這樣，<br/>
+        我才想做這個簡易的導覽網站。<br/>
+        希望你逛起來，會比和老公來逛收穫更多！<br/>
+        <span class="husband-love">我愛你喲 ❤️</span>
+      </p>
+      <div class="husband-audio-wave" id="husband-wave">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <button class="btn-husband-close" id="btn-husband-close" onclick="closeHusbandGreeting()">
+        收到！開始逛博物館 🎨
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== 浮動愛心筆記按鈕 ===== -->
+  <button class="fab-heart" id="fab-heart" onclick="toggleJournal()" title="我的心情筆記">
+    <span class="fab-heart-icon">♡</span>
+    <span class="fab-heart-badge" id="journal-badge" style="display:none;">0</span>
+  </button>
+
+  <!-- ===== 心情筆記面板 ===== -->
+  <div class="journal-panel" id="journal-panel">
+    <div class="journal-header">
+      <h3 class="journal-title">♡ 我的心情筆記</h3>
+      <button class="journal-close" onclick="toggleJournal()">✕</button>
+    </div>
+    <div class="journal-compose">
+      <textarea class="journal-input" id="journal-input" placeholder="寫下此刻的感動…" rows="3"></textarea>
+      <div class="journal-actions">
+        <label class="journal-photo-btn" for="journal-photo">
+          📷 拍照 / 上傳
+          <input type="file" id="journal-photo" accept="image/*" capture="environment" style="display:none;" onchange="handlePhotoUpload(event)" />
+        </label>
+        <button class="journal-save-btn" onclick="saveJournalEntry()">💾 儲存</button>
+      </div>
+      <div class="journal-photo-preview" id="journal-photo-preview" style="display:none;">
+        <img id="journal-preview-img" alt="預覽" />
+        <button class="journal-photo-remove" onclick="removePhotoPreview()">✕</button>
+      </div>
+    </div>
+    <div class="journal-divider"></div>
+    <div class="journal-entries" id="journal-entries">
+      <p class="journal-empty" id="journal-empty">還沒有筆記，快記錄你的感動吧！</p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
