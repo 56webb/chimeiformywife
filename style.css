@@ -530,19 +530,26 @@ body {
 
 /* 時間鎖定倒數 */
 .timelock-countdown {
-  display:flex; align-items:center; justify-content:center; gap:8px;
-  margin:20px 0 16px;
+  display:flex !important; flex-direction:row !important;
+  align-items:center; justify-content:center; gap:6px;
+  margin:20px auto 16px; width:fit-content;
 }
-.countdown-item { text-align:center; }
+.countdown-item {
+  display:flex; flex-direction:column; align-items:center;
+}
 .countdown-num {
-  display:block; font-size:2.2rem; font-weight:700; color:var(--gold-light);
+  font-size:2.2rem; font-weight:700; color:var(--gold-light);
   font-family:'Noto Serif TC',serif; line-height:1;
-  min-width:56px; padding:10px 0;
+  width:60px; height:60px;
+  display:flex; align-items:center; justify-content:center;
   background:rgba(255,255,255,0.06); border-radius:12px;
   border:1px solid rgba(201,169,110,0.2);
 }
-.countdown-label { font-size:0.7rem; color:var(--text-dim); margin-top:4px; display:block; }
-.countdown-sep { font-size:1.8rem; color:var(--gold); font-weight:700; padding-bottom:16px; }
+.countdown-label { font-size:0.7rem; color:var(--text-dim); margin-top:6px; }
+.countdown-sep {
+  font-size:1.8rem; color:var(--gold); font-weight:700;
+  margin-bottom:20px; line-height:1;
+}
 .timelock-date {
   font-size:0.85rem; color:var(--text-dim); text-align:center;
   font-family:'Noto Serif TC',serif;

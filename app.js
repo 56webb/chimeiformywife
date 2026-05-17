@@ -409,7 +409,7 @@ document.addEventListener('visibilitychange', () => {
 // ──────────────────────────────────────
 // 時間鎖定：5/18 11:00 (台灣時間) 才開放
 // ──────────────────────────────────────
-const UNLOCK_TIME = new Date('2026-05-18T11:00:00+08:00').getTime();
+const UNLOCK_TIME = new Date(2026, 4, 18, 11, 0, 0).getTime(); // 月份 0-indexed，4 = 五月
 let countdownTimer = null;
 
 function checkTimelock() {
@@ -418,24 +418,37 @@ function checkTimelock() {
 
   if (diff <= 0) {
     // 時間到！隱藏倒數 → 顯示問答
-    clearInterval(countdownTimer);
-    document.getElementById('timelock-overlay').classList.remove('visible');
-    document.getElementById('quiz-overlay').classList.add('visible');
+    if (countdownTimer) clearInterval(countdownTimer);
+    const tl = document.getElementById('timelock-overlay');
+    const qz = document.getElementById('quiz-overlay');
+    if (tl) tl.classList.remove('visible');
+    if (qz) qz.classList.add('visible');
     return;
   }
 
   // 更新倒數
-  const hours = Math.floor(diff / 3600000);
-  const mins = Math.floor((diff % 3600000) / 60000);
-  const secs = Math.floor((diff % 60000) / 1000);
-  document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
-  document.getElementById('cd-minutes').textContent = String(mins).padStart(2, '0');
-  document.getElementById('cd-seconds').textContent = String(secs).padStart(2, '0');
+  const h = Math.floor(diff / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+
+  const eh = document.getElementById('cd-hours');
+  const em = document.getElementById('cd-minutes');
+  const es = document.getElementById('cd-seconds');
+  if (eh) eh.textContent = String(h).padStart(2, '0');
+  if (em) em.textContent = String(m).padStart(2, '0');
+  if (es) es.textContent = String(s).padStart(2, '0');
 }
 
-// 啟動倒數
-checkTimelock();
-countdownTimer = setInterval(checkTimelock, 1000);
+// DOM 就緒後啟動倒數
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    checkTimelock();
+    countdownTimer = setInterval(checkTimelock, 1000);
+  });
+} else {
+  checkTimelock();
+  countdownTimer = setInterval(checkTimelock, 1000);
+}
 
 // ──────────────────────────────────────
 // 入場問答 → 耳機確認 → 老公問候
